@@ -13,11 +13,15 @@ const routes = [
     children: [
       { path: 'index', name: 'index', component: () => import('../views/index/index.vue') },
       { path: 'content', name: 'content', component: () => import('../views/content/index.vue') },
-      { path: 'material', name: 'material', component: () => import('../views/index/index.vue') },
-      { path: 'articles', name: 'articles', component: () => import('../views/index/index.vue') },
-      { path: 'comments', name: 'comments', component: () => import('../views/index/index.vue') },
-      { path: 'fans', name: 'fans', component: () => import('../views/index/index.vue') },
-      { path: 'profile', name: 'profile', component: () => import('../views/index/index.vue') }
+      { path: 'material', name: 'material', component: () => import('../views/material/') },
+      { path: 'publish', name: 'publish', component: () => import('../views/publish/index.vue') },
+      { path: 'comments', name: 'comments', component: () => import('../views/comment/index.vue') },
+      {
+        path: 'fans',
+        name: 'fans',
+        component: () => import('../views/fans/index.vue')
+      },
+      { path: 'profile', name: 'profile', component: () => import('../views/profile/index.vue') }
     ]
   }
 ]

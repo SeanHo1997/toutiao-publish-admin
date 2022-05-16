@@ -20,7 +20,7 @@
         <i class="el-icon-picture"></i>
         <span slot="title">素材管理</span>
       </el-menu-item>
-      <el-menu-item index="/layout/articles">
+      <el-menu-item index="/layout/publish">
         <i class="el-icon-s-promotion"></i>
         <span slot="title">发布文章</span>
       </el-menu-item>
@@ -34,14 +34,15 @@
       </el-menu-item>
       <el-menu-item index="/layout/profile">
         <i class="el-icon-user-solid"></i>
-        <span slot="title">个人设置</span>
+        <span slot="title">个人资料</span>
       </el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script>
-import bus from './EventBus.js'
+import bus from '@/utils/bus'
+
 export default {
   name: 'SideBar',
   data () {

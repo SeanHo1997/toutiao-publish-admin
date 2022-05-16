@@ -26,15 +26,6 @@
             <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="日期" class="dataPicker">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="开始日期" v-model="date.begin_pubdate" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
-          </el-col>
-          <el-col class="line" :span="2">-</el-col>
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="结束日期" v-model="date.end_pubdate" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
-          </el-col>
-        </el-form-item> -->
         <el-form-item label="日期选择" class="block">
           <el-date-picker
             v-model="date"
@@ -107,7 +98,7 @@
           >
           <template slot-scope="scope">
             <!-- 编辑文章按钮 -->
-            <el-button type="primary" icon="el-icon-edit" circle disabled ></el-button>
+            <el-button type="primary" icon="el-icon-edit" circle @click="$router.push(`/layout/publish?id=${scope.row.id}`)"></el-button>
             <!-- 删除文章按钮 -->
             <el-button type="danger" icon="el-icon-delete" circle @click="deleteArticle(scope.row.id)"></el-button>
           </template>
@@ -196,7 +187,9 @@ export default {
           type: 'success',
           message: '删除成功'
         })
-        this.onGetArticles()
+        this.$nextTick(() => {
+          this.onGetArticles()
+        })
       })
     }
   },
@@ -217,7 +210,7 @@ export default {
   }
   .box-card2 {
     .cover {
-      width: 60px;
+      height: 60px;
     }
     .pagiantion {
       display: flex;

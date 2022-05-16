@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import bus from './EventBus.js'
+import bus from '@/utils/bus'
+
 export default {
   name: 'NavBar',
   data () {
@@ -63,8 +64,13 @@ export default {
     }
   },
   created () {
+    // 初始化加载用户数据
     const user = JSON.parse(window.localStorage.getItem('user'))
     this.user = user
+    // 同步更新来自个人资料组件中的用户图像和昵称
+    bus.$on('update-avator', user => {
+      this.user = user
+    })
   }
 }
 </script>

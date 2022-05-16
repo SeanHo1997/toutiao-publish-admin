@@ -1,21 +1,21 @@
 // 基于axios封装请求模块
 import axios from 'axios'
 import store from '@/store/'
-// import JSONbig from 'json-bigint'
+import JSONbig from 'json-bigint'
 
 const request = axios.create({
   // 请求基础地址
-  baseURL: 'http://api-toutiao-web.itheima.net'
+  baseURL: 'http://api-toutiao-web.itheima.net',
   // 后端返回的数据处理API, data是后端返回的数据
-  // transformResponse: [
-  //   function (data) {
-  //     try {
-  //       return JSONbig.parse(data)
-  //     } catch {
-  //       return data
-  //     }
-  //   }
-  // ]
+  transformResponse: [
+    function (data) {
+      try {
+        return JSONbig.parse(data)
+      } catch {
+        return data
+      }
+    }
+  ]
 })
 
 // 请求拦截器
