@@ -2,7 +2,7 @@
   <div class="sidebar-container">
     <!-- <div class="bgi" v-show="!isCollapse"></div> -->
     <el-menu
-      default-active="/layout/index"
+      :default-active="$route.path"
       background-color="#002033"
       text-color="#fff"
       active-text-color="#ffd04b"

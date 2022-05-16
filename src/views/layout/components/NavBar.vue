@@ -13,7 +13,7 @@
           <span class="el-dropdown-link">{{user.name}}</span>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>设置</el-dropdown-item>
+          <el-dropdown-item @click.native="$router.push('/layout/profile')">设置</el-dropdown-item>
           <el-dropdown-item @click.native="handleClose">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

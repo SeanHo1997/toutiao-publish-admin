@@ -39,6 +39,17 @@
             <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-form-item class="uploadIMG-wrap">
+          <template v-if="article.cover.type > 0">
+            <UploadIMG
+            v-for="(item, i) in article.cover.type"
+            :key="i"
+            class="uploadIMG"
+            @sendPhoto="recievePhoto(val)"
+            >
+            </UploadIMG>
+          </template>
+        </el-form-item>
         <!-- <input type="file" ref="photo" hidden>
         <el-form-item>
           <el-image class="updateIMG">
@@ -64,6 +75,7 @@
 <script>
 import { getChannels, publishArticle, getArticle, amendArticle, uploadImage } from '@/api/article'
 import 'element-tiptap/lib/index.css'
+import UploadIMG from '@/views/publish/components/UploadIMG.vue'
 import {
   // 需要的 extensions
   ElementTiptap,
@@ -85,6 +97,7 @@ import {
 export default {
   name: 'PublishArticle',
   components: {
+    UploadIMG,
     'el-tiptap': ElementTiptap
   },
   data () {
@@ -184,6 +197,10 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    recievePhoto (val) {
+      const newVal = val.replace('blob:', '')
+      this.article.cover.images.push = newVal
     }
   },
   created () {
@@ -211,5 +228,9 @@ export default {
   .image-slot {
     height: 180px !important;
   }
+}
+.uploadIMG-wrap {
+  display: flex;
+  justify-content: space-evenly;
 }
 </style>

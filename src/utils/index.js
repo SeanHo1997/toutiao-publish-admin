@@ -2,6 +2,7 @@
 import axios from 'axios'
 import store from '@/store/'
 import JSONbig from 'json-bigint'
+import router from '@/router'
 
 const request = axios.create({
   // 请求基础地址
@@ -29,16 +30,18 @@ request.interceptors.request.use(config => {
 })
 
 // 响应拦截器
-// request.interceptors.response.use(response => {
-//   return response
-// }, error => {
-//   const status = error.response.status
-//   if (status === 400) {
-//     this.$message.error('请求参数错误')
-//   } else if (status === 403) {
-//     this.$message.error('refresh_token未携带或已过期')
-//   } else if (status === 507) {
-//     this.$message.error('服务器数据库异常')
-//   }
-// })
+request.interceptors.response.use(response => {
+  return response
+}, error => {
+  const { status } = error.response
+  if (status === 401) {
+    router.replace('/login')
+  } else if (status === 400) {
+    this.$message.error('请求参数错误')
+  } else if (status === 403) {
+    this.$message.error('refresh_token未携带或已过期')
+  } else if (status === 507) {
+    this.$message.error('服务器数据库异常')
+  }
+})
 export default request
