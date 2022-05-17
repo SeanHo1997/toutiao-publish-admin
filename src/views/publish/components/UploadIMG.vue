@@ -7,13 +7,13 @@
     <el-dialog
       class="dialog"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="70%"
       :append-to-body="true"
       :show-close="false"
       >
       <el-tabs v-model="activeName" type="card">
         <el-tab-pane label="素材库" name="first">
-          素材库
+          <SubMaterials ref="subMaterials"></SubMaterials>
         </el-tab-pane>
         <el-tab-pane label="上传图片" name="second">
           <!-- 图片预览 -->
@@ -31,8 +31,12 @@
 </template>
 
 <script>
+import SubMaterials from '@/components/Materials.vue'
 export default {
   name: 'UploadIMG',
+  components: {
+    SubMaterials
+  },
   data () {
     return {
       dialogVisible: false,
@@ -49,14 +53,24 @@ export default {
       this.$refs.preview.src = blob
     },
     confirmPhoto () {
-      if (this.$refs.file.files[0]) {
-        const file = this.$refs.file.files[0]
-        const blob = window.URL.createObjectURL(file)
-        this.$refs.img.src = blob
-        this.$emit('sendPhoto', this.$refs.img.src)
-        this.dialogVisible = false
+      if (this.activeName === 'first') {
+        if (this.$refs.SubMaterials.selected === null) {
+          this.$message.error('请选择图片')
+        } else {
+          const src = this.$refs.SubMaterials.images[this.$refs.SubMaterials.selected].url
+          this.$emit('sendPhoto', src)
+          this.dialogVisible = false
+        }
       } else {
-        this.$message.error('请上传图片')
+        if (this.$refs.file.files[0]) {
+          const file = this.$refs.file.files[0]
+          const blob = window.URL.createObjectURL(file)
+          this.$refs.img.src = blob
+          this.$emit('sendPhoto', this.$refs.img.src)
+          this.dialogVisible = false
+        } else {
+          this.$message.error('请上传图片')
+        }
       }
       this.$refs.file.value = ''
     },
