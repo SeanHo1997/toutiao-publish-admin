@@ -45,7 +45,7 @@
             v-for="(item, i) in article.cover.type"
             :key="i"
             class="uploadIMG"
-            @sendPhoto="recievePhoto(val)"
+            @sendPhoto="recievePhoto"
             >
             </UploadIMG>
           </template>
@@ -198,9 +198,9 @@ export default {
         console.log(error)
       })
     },
-    recievePhoto (val) {
-      const newVal = val.replace('blob:', '')
-      this.article.cover.images.push = newVal
+    recievePhoto (url) {
+      // const newVal = val.replace('blob:', '')
+      this.article.cover.images.push = url
     }
   },
   created () {

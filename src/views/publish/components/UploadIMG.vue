@@ -4,6 +4,7 @@
     <div class="image-wrap" @click="clickBox">
       <i class="el-icon-picture-outline"></i>
     </div>
+    <!-- 弹出层 -->
     <el-dialog
       class="dialog"
       :visible.sync="dialogVisible"
@@ -11,10 +12,13 @@
       :append-to-body="true"
       :show-close="false"
       >
+      <!-- 选项卡 -->
       <el-tabs v-model="activeName" type="card">
+        <!-- 选项1 -->
         <el-tab-pane label="素材库" name="first">
           <SubMaterials ref="subMaterials"></SubMaterials>
         </el-tab-pane>
+        <!-- 选项2 -->
         <el-tab-pane label="上传图片" name="second">
           <!-- 图片预览 -->
           <input type="file" ref="file" @change="selectPhoto" hidden>
@@ -31,7 +35,7 @@
 </template>
 
 <script>
-import SubMaterials from '@/components/Materials.vue'
+import SubMaterials from '@/components/SubMaterials.vue'
 export default {
   name: 'UploadIMG',
   components: {
@@ -53,14 +57,16 @@ export default {
       this.$refs.preview.src = blob
     },
     confirmPhoto () {
+      // 如果是素材库选择图片
       if (this.activeName === 'first') {
-        if (this.$refs.SubMaterials.selected === null) {
+        if (this.$refs.subMaterials.selected === null) {
           this.$message.error('请选择图片')
         } else {
-          const src = this.$refs.SubMaterials.images[this.$refs.SubMaterials.selected].url
+          const src = this.$refs.subMaterials.images.results[this.$refs.subMaterials.selected].url
           this.$emit('sendPhoto', src)
           this.dialogVisible = false
         }
+        // 如果是手动上传图片
       } else {
         if (this.$refs.file.files[0]) {
           const file = this.$refs.file.files[0]
@@ -71,8 +77,8 @@ export default {
         } else {
           this.$message.error('请上传图片')
         }
+        this.$refs.file.value = ''
       }
-      this.$refs.file.value = ''
     },
     cancelPhoto () {
       this.$refs.file.value = ''

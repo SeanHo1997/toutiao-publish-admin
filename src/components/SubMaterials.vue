@@ -17,7 +17,9 @@
             :src="item.url"
             fit="cover"
             class="img"
-            @click="this.selected = i">
+            @click.native="selected = i"
+            ref="image"
+            >
             </el-image>
             <div class="background" v-if="selected === i"></div>
             <!-- 遮罩层 -->
@@ -132,6 +134,9 @@ export default {
           message: '删除成功'
         })
       })
+    },
+    selectMaterial () {
+      // this.selected = this.$refs.image.i
     }
   },
   created () {
@@ -186,8 +191,6 @@ export default {
       justify-content: center;
     }
     .btn-group {
-      // display: flex;
-      // justify-content: space-around;
       .addIMG {
         position: absolute;
         right: 20px;

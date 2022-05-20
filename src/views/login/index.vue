@@ -130,7 +130,7 @@ export default {
     justify-content: space-between;
     .login-logo {
       height: 60px;
-      background: url('@/assets/imgs/logo_index.png') no-repeat center;
+      // background: url('@/assets/imgs/logo_index.png') no-repeat center;
     }
     .read-file {
       display: flex;

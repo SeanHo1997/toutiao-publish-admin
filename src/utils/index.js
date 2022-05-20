@@ -35,6 +35,7 @@ request.interceptors.response.use(response => {
 }, error => {
   const { status } = error.response
   if (status === 401) {
+    window.localStorage.removeItem('user')
     router.replace('/login')
   } else if (status === 400) {
     this.$message.error('请求参数错误')
