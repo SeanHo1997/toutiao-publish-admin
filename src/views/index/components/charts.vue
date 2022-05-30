@@ -412,7 +412,7 @@ export default {
     }
     const option = {
       title: {
-        text: '粉丝分布数据地图',
+        text: '粉丝分布数据地图// 接口文档没有此数据接口, 故模拟了数据',
         left: 'center'
       },
       tooltip: {

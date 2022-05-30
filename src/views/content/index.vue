@@ -181,8 +181,8 @@ export default {
     deleteArticle (id) {
       this.$confirm('确认删除文章？', {
         type: 'warning'
-      }).then(() => {
-        deleteArticle(id)
+      }).then(async () => {
+        await deleteArticle(id)
         this.$message({
           type: 'success',
           message: '删除成功'

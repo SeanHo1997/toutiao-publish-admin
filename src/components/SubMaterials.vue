@@ -5,9 +5,7 @@
       <el-button-group class="btn-group" >
           <el-button :type="allOrcollect === 0 ? 'primary' : ''" @click="loadAll(false)" >全部</el-button>
           <el-button :type="allOrcollect === 1 ? 'primary' : ''" @click="loadCollect(true)" >收藏</el-button>
-          <!-- <el-button type="primary" @click="upload" class="addIMG">添加素材</el-button> -->
       </el-button-group>
-      <!-- 点击添加素材 弹出对话框 -->
       <!-- 布局 -->
       <el-row :gutter="5" class="grid-group">
         <el-col :span="4" :xs="12" :sm="6" :md="4" :lg="4" :xl="1" v-for="(item, i) in images.results" :key="item.id">
@@ -17,17 +15,11 @@
             :src="item.url"
             fit="cover"
             class="img"
-            @click.native="selected = i"
+            @click.native="selectMaterial(i)"
             ref="image"
             >
             </el-image>
             <div class="background" v-if="selected === i"></div>
-            <!-- 遮罩层 -->
-            <!-- <div class="mask">
-              <i :class="item.is_collected ? 'el-icon-star-on':'el-icon-star-off'" @click="clickCollect(item)"></i>
-              <i class="el-icon-delete" @click="clickDlete(item)"></i>
-            </div> -->
-            <!-- 遮罩层 -->
           </div>
         </el-col>
       </el-row>
@@ -37,10 +29,8 @@
         layout="prev, pager, next"
         :page-size="12"
         :total="total"
-        :current-page.sync="page"
+        :current-page="page"
         @current-change="currentChange"
-        @prev-click="prevClick"
-        @next-click="nextClick"
         class="pagination">
       </el-pagination>
     </el-card>
@@ -48,7 +38,7 @@
 </template>
 
 <script>
-import { loadImages, collectImage, deleteImage } from '@/api/images.js'
+import { loadImages } from '@/api/images.js'
 export default {
   name: 'SubMaterials',
   data () {
@@ -84,59 +74,13 @@ export default {
       this.allOrcollect = 1
       this.loadMaterials(collect)
     },
-    upload () {
-      this.dialogVisible = true
-    },
-    onSuccess () {
-      this.dialogVisible = false
-      this.$message({
-        type: 'success',
-        message: '上传成功'
-      })
-    },
     currentChange () {
       this.page += 1
       this.loadMaterials()
     },
-    prevClick () {
-      this.page -= 1
-      this.loadMaterials()
-    },
-    nextClick () {
-      this.page += 1
-      this.loadMaterials()
-    },
-    clickCollect (item) {
-      collectImage(item.id, !item.is_collected).then(() => {
-        if (item.is_collected === true) {
-          item.is_collected = false
-          this.$message({
-            type: 'success',
-            message: '取消收藏成功'
-          })
-        } else {
-          item.is_collected = true
-          this.$message({
-            type: 'success',
-            message: '收藏成功'
-          })
-        }
-      }).catch(() => {
-        this.$message.error('收藏失败')
-      })
-    },
-    clickDlete (item) {
-      deleteImage(item.id).then(() => {
-        // 删除成功后需要重新加载数据
-        this.loadMaterials()
-        this.$message({
-          type: 'success',
-          message: '删除成功'
-        })
-      })
-    },
-    selectMaterial () {
-      // this.selected = this.$refs.image.i
+    selectMaterial (i) {
+      this.selected = i
+      this.$emit('selectedPhoto', this.images.results[i].url)
     }
   },
   created () {
@@ -196,13 +140,6 @@ export default {
         right: 20px;
       }
     }
-    // .dialog {
-    //   .upload-demo {
-    //     display: flex;
-    //     flex-direction: column;
-    //     align-items: center;
-    //   }
-    // }
   }
 }
 </style>

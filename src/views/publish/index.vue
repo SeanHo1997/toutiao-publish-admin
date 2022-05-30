@@ -42,22 +42,15 @@
         <el-form-item class="uploadIMG-wrap">
           <template v-if="article.cover.type > 0">
             <UploadIMG
+            class="updateIMG"
+            ref="uploadIMG"
             v-for="(item, i) in article.cover.type"
             :key="i"
-            class="uploadIMG"
             @sendPhoto="recievePhoto"
             >
             </UploadIMG>
           </template>
         </el-form-item>
-        <!-- <input type="file" ref="photo" hidden>
-        <el-form-item>
-          <el-image class="updateIMG">
-            <div slot="error" class="image-slot"  @click="selectIMG">
-              <i class="el-icon-picture-outline"></i>
-            </div>
-          </el-image>
-        </el-form-item> -->
         <el-form-item label="频道选择" prop="channel_id">
           <el-select v-model="article.channel_id" placeholder="请选择频道">
             <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -114,11 +107,11 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 5, max: 10, message: '标题必须在5-10个字数之间', trigger: 'blur' }
+          { min: 3, max: 15, message: '标题必须在5-10个字数之间', trigger: 'blur' }
         ],
         content: [
           { required: true, message: '请输入内容', trigger: 'blur' },
-          { min: 15, max: 50, message: '内容字数必须在15-50之间', trigger: 'blur' }
+          { min: 5, max: 300, message: '内容字数必须在15-50之间', trigger: 'blur' }
         ],
         cover: [
           { required: true, message: '请选择封面类型', trigger: 'blur' }
@@ -199,8 +192,8 @@ export default {
       })
     },
     recievePhoto (url) {
-      // const newVal = val.replace('blob:', '')
-      this.article.cover.images.push = url
+      const newVal = url.replace('blob:', '')
+      this.article.cover.images.push(newVal)
     }
   },
   created () {
@@ -217,9 +210,11 @@ export default {
 
 <style lang="less" scoped>
 .updateIMG {
+  display: inline-block;
   width: 180px;
   height: 180px;
   border: 1px solid gray;
+  margin: 0 20px;
   text-align: center;
   line-height: 240px;
   .el-icon-picture-outline {

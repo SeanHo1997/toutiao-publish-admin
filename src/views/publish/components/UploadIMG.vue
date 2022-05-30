@@ -1,12 +1,13 @@
 <template>
-  <div class="wrap">
-    <img ref="img" src="" alt="" class="cover" @click="$refs.file.click()" >
+  <div class="wrap" ref="wrap">
+    <img ref="img" :src="src" alt="" class="cover" @click="$refs.file.click()" >
     <div class="image-wrap" @click="clickBox">
       <i class="el-icon-picture-outline"></i>
     </div>
     <!-- 弹出层 -->
     <el-dialog
       class="dialog"
+      v-if="dialogVisible"
       :visible.sync="dialogVisible"
       width="70%"
       :append-to-body="true"
@@ -14,11 +15,11 @@
       >
       <!-- 选项卡 -->
       <el-tabs v-model="activeName" type="card">
-        <!-- 选项1 -->
+        <!-- 选项卡1 素材库 -->
         <el-tab-pane label="素材库" name="first">
-          <SubMaterials ref="subMaterials"></SubMaterials>
+          <SubMaterials ref="subMaterials" @selectedPhoto="selectedPhoto"></SubMaterials>
         </el-tab-pane>
-        <!-- 选项2 -->
+        <!-- 选项2 上传图片 -->
         <el-tab-pane label="上传图片" name="second">
           <!-- 图片预览 -->
           <input type="file" ref="file" @change="selectPhoto" hidden>
@@ -44,13 +45,15 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      activeName: 'first'
+      activeName: 'first',
+      src: ''
     }
   },
   methods: {
     clickBox () {
       this.dialogVisible = true
     },
+    // 通过手动上传选择图片封面
     selectPhoto () {
       const file = this.$refs.file.files[0]
       const blob = window.URL.createObjectURL(file)
@@ -62,8 +65,7 @@ export default {
         if (this.$refs.subMaterials.selected === null) {
           this.$message.error('请选择图片')
         } else {
-          const src = this.$refs.subMaterials.images.results[this.$refs.subMaterials.selected].url
-          this.$emit('sendPhoto', src)
+          this.$emit('sendPhoto', this.src)
           this.dialogVisible = false
         }
         // 如果是手动上传图片
@@ -84,6 +86,10 @@ export default {
       this.$refs.file.value = ''
       this.$refs.preview.src = ''
       this.dialogVisible = false
+    },
+    // 通过素材库选择图片封面
+    selectedPhoto (url) {
+      this.src = url
     }
   }
 }
@@ -96,6 +102,13 @@ export default {
   height: 150px;
   border: 1px solid #eee;
   line-height: 150px;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    object-fit: cover;
+  }
   .cover {
     position: absolute;
     width: 100%;
@@ -103,6 +116,7 @@ export default {
   }
   /deep/.image-wrap {
     text-align: center;
+    line-height: 200px;
     i {
       font-size: 35px;
     }

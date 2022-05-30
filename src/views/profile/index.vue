@@ -8,27 +8,27 @@
         </el-breadcrumb>
       </div>
       <!-- 用户资料显示区域 -->
-      <el-form ref="form" :model="user" :rules="rules" label-width="80px" class="form">
+      <el-form ref="form" :model="user" :rules="rules" label-width="100px" class="form">
         <el-form-item class="avator-container">
           <p slot="label">头像 : </p>
           <el-avatar class="avator" :size="100" :src="user.photo" @click.native="clickAvator"></el-avatar>
           <input type="file" ref="file" hidden @change="selectAvator">
         </el-form-item>
         <el-form-item label="用户ID : ">{{ user.id }}</el-form-item>
-        <el-form-item label="手机号码">
+        <el-form-item label="手机号码 :">
           {{ user.mobile }}
         </el-form-item>
         <el-form-item label="用户昵称 : " prop="name">
           <el-input v-model="user.name"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item label="邮箱 : " prop="email">
           <el-input v-model="user.email"></el-input>
         </el-form-item>
-        <el-form-item label="简介" prop="intro">
+        <el-form-item label="简介 : " prop="intro">
           <el-input type="textarea" v-model="user.intro"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSave">保存</el-button>
+          <el-button type="primary" @click="onSave">保 存</el-button>
         </el-form-item>
       </el-form>
     </el-card>
