@@ -12,7 +12,7 @@
       <el-form ref="form" :model="article" :rules="rules" label-width="80px">
         <el-form-item label="标题" prop="title">
           <el-input v-model="article.title"
-          maxlength="10"
+          maxlength="20"
           show-word-limit>
           </el-input>
         </el-form-item>
@@ -31,7 +31,7 @@
           placeholder="请输入内容"
           ></el-tiptap>
         </el-form-item>
-        <el-form-item label="图片数量" prop="cover">
+        <el-form-item label="上传封面" prop="cover">
           <el-radio-group v-model="article.cover.type">
             <el-radio :label="1">单图</el-radio>
             <el-radio :label="3">三图</el-radio>
@@ -46,7 +46,8 @@
             ref="uploadIMG"
             v-for="(item, i) in article.cover.type"
             :key="i"
-            @sendPhoto="recievePhoto"
+            @sendPhoto="recievePhoto(i, $event)"
+            :editImg="article.cover.images[i]"
             >
             </UploadIMG>
           </template>
@@ -70,7 +71,6 @@ import { getChannels, publishArticle, getArticle, amendArticle, uploadImage } fr
 import 'element-tiptap/lib/index.css'
 import UploadIMG from '@/views/publish/components/UploadIMG.vue'
 import {
-  // 需要的 extensions
   ElementTiptap,
   Doc,
   Text,
@@ -107,7 +107,7 @@ export default {
       rules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { min: 3, max: 15, message: '标题必须在5-10个字数之间', trigger: 'blur' }
+          { min: 3, max: 20, message: '标题必须在5-10个字数之间', trigger: 'blur' }
         ],
         content: [
           { required: true, message: '请输入内容', trigger: 'blur' },
@@ -191,9 +191,13 @@ export default {
         console.log(error)
       })
     },
-    recievePhoto (url) {
+    recievePhoto (index, url) {
       const newVal = url.replace('blob:', '')
-      this.article.cover.images.push(newVal)
+      if (this.article.cover.type === 3) {
+        this.article.cover.images[index] = newVal
+      } else {
+        this.article.cover.images[0] = newVal
+      }
     }
   },
   created () {

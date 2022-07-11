@@ -1,7 +1,7 @@
 <template>
-  <div class="wrap" ref="wrap">
-    <img ref="img" :src="src" alt="" class="cover" @click="$refs.file.click()" >
-    <div class="image-wrap" @click="clickBox">
+  <div class="wrap" ref="wrap" @click="clickBox">
+    <img ref="img" :src="src" alt="" class="cover" @click="$refs.file.click()">
+    <div class="image-wrap">
       <i class="el-icon-picture-outline"></i>
     </div>
     <!-- 弹出层 -->
@@ -24,7 +24,15 @@
           <!-- 图片预览 -->
           <input type="file" ref="file" @change="selectPhoto" hidden>
           <el-button size="mini" class="select" @click="$refs.file.click()">选择图片</el-button>
-          <img ref="preview" alt="" class="preview" style="width: 100%">
+          <!-- <el-dialog
+            v-if="SecdialogVisible"
+            :visible.sync="SecdialogVisible"
+            width="50%"
+            :append-to-body="true"
+            :show-close="false"
+            > -->
+            <img ref="preview" alt="" style="width: 100px; height: 100px; display: block">
+          <!-- </el-dialog> -->
         </el-tab-pane>
       </el-tabs>
       <span slot="footer" class="dialog-footer">
@@ -37,16 +45,23 @@
 
 <script>
 import SubMaterials from '@/components/SubMaterials.vue'
+
 export default {
   name: 'UploadIMG',
+  props: {
+    editImg: {
+      type: String
+    }
+  },
   components: {
     SubMaterials
   },
   data () {
     return {
       dialogVisible: false,
+      SecdialogVisible: false,
       activeName: 'first',
-      src: ''
+      src: this.editImg
     }
   },
   methods: {
@@ -58,6 +73,7 @@ export default {
       const file = this.$refs.file.files[0]
       const blob = window.URL.createObjectURL(file)
       this.$refs.preview.src = blob
+      // this.SecdialogVisible = true
     },
     confirmPhoto () {
       // 如果是素材库选择图片
@@ -68,7 +84,7 @@ export default {
           this.$emit('sendPhoto', this.src)
           this.dialogVisible = false
         }
-        // 如果是手动上传图片
+        // 不然就是本地上传
       } else {
         if (this.$refs.file.files[0]) {
           const file = this.$refs.file.files[0]
@@ -102,16 +118,12 @@ export default {
   height: 150px;
   border: 1px solid #eee;
   line-height: 150px;
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    object-fit: cover;
-  }
   .cover {
+    width: 150px;
+    height: 150px;
     position: absolute;
-    width: 100%;
+    left: 0;
+    top: 0;
     object-fit: contain;
   }
   /deep/.image-wrap {

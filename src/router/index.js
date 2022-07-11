@@ -16,11 +16,7 @@ const routes = [
       { path: 'material', name: 'material', component: () => import('../views/material/') },
       { path: 'publish', name: 'publish', component: () => import('../views/publish/index.vue') },
       { path: 'comments', name: 'comments', component: () => import('../views/comment/index.vue') },
-      {
-        path: 'fans',
-        name: 'fans',
-        component: () => import('../views/fans/index.vue')
-      },
+      { path: 'fans', name: 'fans', component: () => import('../views/fans/index.vue') },
       { path: 'profile', name: 'profile', component: () => import('../views/profile/index.vue') }
     ]
   }
